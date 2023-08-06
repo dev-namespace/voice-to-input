@@ -2,6 +2,10 @@
 
 A script for transcribing recorded voice into keyboard input. 
 
+## Requirements 
+
+* `pipenv` must be installed
+
 ## Instructions
 
 ``` sh
