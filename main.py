@@ -7,7 +7,7 @@ from pynput.keyboard import Controller, Key
 from pynput import keyboard
 from docker_utils import is_whisper_running, run_whisper, stop_whisper
 
-REC_KEYS = [keyboard.Key.pause, keyboard.Key.ctrl_l]
+REC_KEYS = [keyboard.Key.pause]
 had_to_start_docker = False
 recorder = None
 

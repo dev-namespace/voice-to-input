@@ -13,7 +13,7 @@ def is_whisper_running():
 def run_whisper(docker_port = 5000, host_port = 5000):
     try:
         print("Starting whisper-server...")
-        client.containers.run("whisper-server:latestxxx", detach=True, ports={'%s/tcp' % docker_port: host_port})
+        client.containers.run("whisper-server:latest", detach=True, ports={'%s/tcp' % docker_port: host_port})
 
         print("Let's give some time for the server to start...")
         is_active = False
