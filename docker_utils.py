@@ -2,18 +2,19 @@
 
 import docker, time
 
+CONTAINER_NAME = "voice-server"
 client = docker.from_env()
 
 def is_whisper_running():
     containers = client.containers.list()
     for container in containers:
-        if container.image.tags[0] == "whisper-server:latest":
+        if container.image.tags[0] == "%s:latest" % CONTAINER_NAME:
             return True
 
 def run_whisper(docker_port = 5000, host_port = 5000):
     try:
         print("Starting whisper-server...")
-        client.containers.run("whisper-server:latest", detach=True, ports={'%s/tcp' % docker_port: host_port})
+        client.containers.run("%s:latest" % CONTAINER_NAME, detach=True, ports={'%s/tcp' % docker_port: host_port})
 
         print("Let's give some time for the server to start...")
         is_active = False
@@ -24,10 +25,10 @@ def run_whisper(docker_port = 5000, host_port = 5000):
             is_active = ping_port("localhost", host_port)
             time.sleep(1)
 
-        print("[*] Started whisper-server")
-        print("[!] whisper-server is running on http://localhost:%s" % host_port)
+        print("[*] Started %s" % CONTAINER_NAME)
+        print("[!] %s is running on http://localhost:%s" % (CONTAINER_NAME, host_port))
     except Exception as e:
-        print("[!] whisper-server could not be started")
+        print("[!] %s could not be started" % CONTAINER_NAME)
         print(e)
         raise e
 
@@ -35,11 +36,11 @@ def stop_whisper():
     print("Stopping whisper-server...")
     containers = client.containers.list()
     for container in containers:
-        if container.image.tags[0] == "whisper-server:latest":
+        if container.image.tags[0] == "%s:latest" % CONTAINER_NAME:
             container.stop()
-            print("[*] Stopped whisper-server")
+            print("[*] Stopped %s" % CONTAINER_NAME)
             return
-    print("[!] whisper-server not found")
+    print("[!] %s not found" % CONTAINER_NAME)
 
 import socket
 
